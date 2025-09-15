@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { attr, fk } from 'redux-orm';
+import { attr, fk, many } from 'redux-orm';
 
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
@@ -32,6 +32,11 @@ export default class extends BaseModel {
       to: 'User',
       as: 'user',
       relatedName: 'assignedTasks',
+    }),
+    users: many({
+      to: 'User',
+      through: 'TaskMembership',
+      throughFields: ['taskId', 'userId'],
     }),
   };
 
@@ -105,6 +110,38 @@ export default class extends BaseModel {
 
         break;
       }
+      case ActionTypes.USER_TO_TASK_ADD: {
+        const taskModel = Task.withId(payload.taskId);
+        taskModel.users.add(payload.id);
+
+        break;
+      }
+      case ActionTypes.USER_TO_TASK_ADD__SUCCESS:
+      case ActionTypes.USER_TO_TASK_ADD_HANDLE:
+        try {
+          Task.withId(payload.taskMembership.taskId).users.add(payload.taskMembership.userId);
+        } catch {
+          /* empty */
+        }
+
+        break;
+      case ActionTypes.USER_FROM_TASK_REMOVE:
+        try {
+          Task.withId(payload.taskId).users.remove(payload.id);
+        } catch {
+          /* empty */
+        }
+
+        break;
+      case ActionTypes.USER_FROM_TASK_REMOVE__SUCCESS:
+      case ActionTypes.USER_FROM_TASK_REMOVE_HANDLE:
+        try {
+          Task.withId(payload.taskMembership.taskId).users.remove(payload.taskMembership.userId);
+        } catch {
+          /* empty */
+        }
+
+        break;
       default:
     }
   }

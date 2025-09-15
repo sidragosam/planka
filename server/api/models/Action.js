@@ -72,13 +72,15 @@ const Types = {
   MOVE_CARD: 'moveCard',
   ADD_MEMBER_TO_CARD: 'addMemberToCard',
   REMOVE_MEMBER_FROM_CARD: 'removeMemberFromCard',
+  ADD_MEMBER_TO_TASK: 'addMemberToTask',
+  REMOVE_MEMBER_FROM_TASK: 'removeMemberFromTask',
   COMPLETE_TASK: 'completeTask',
   UNCOMPLETE_TASK: 'uncompleteTask',
 };
 
-const INTERNAL_NOTIFIABLE_TYPES = [Types.MOVE_CARD, Types.ADD_MEMBER_TO_CARD];
+const INTERNAL_NOTIFIABLE_TYPES = [Types.MOVE_CARD, Types.ADD_MEMBER_TO_CARD, Types.ADD_MEMBER_TO_TASK];
 const EXTERNAL_NOTIFIABLE_TYPES = [Types.CREATE_CARD, Types.MOVE_CARD];
-const PERSONAL_NOTIFIABLE_TYPES = [Types.ADD_MEMBER_TO_CARD];
+const PERSONAL_NOTIFIABLE_TYPES = [Types.ADD_MEMBER_TO_CARD, Types.ADD_MEMBER_TO_TASK];
 
 module.exports = {
   Types,

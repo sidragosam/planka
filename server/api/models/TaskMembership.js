@@ -4,7 +4,7 @@
  */
 
 /**
- * Task.js
+ * TaskMembership.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -14,61 +14,38 @@
  * @swagger
  * components:
  *   schemas:
- *     Task:
+ *     TaskMembership:
  *       type: object
  *       required:
  *         - id
- *         - taskListId
- *         - linkedCardId
- *         - assigneeUserId
- *         - position
- *         - name
- *         - isCompleted
+ *         - taskId
+ *         - userId
  *         - createdAt
  *         - updatedAt
  *       properties:
  *         id:
  *           type: string
- *           description: Unique identifier for the task
+ *           description: Unique identifier for the task membership
  *           example: "1357158568008091264"
- *         taskListId:
+ *         taskId:
  *           type: string
- *           description: ID of the task list the task belongs to
+ *           description: ID of the task the user is a member of
  *           example: "1357158568008091265"
- *         linkedCardId:
+ *         userId:
  *           type: string
- *           nullable: true
- *           description: ID of the card linked to the task
+ *           description: ID of the user who is a member of the task
  *           example: "1357158568008091266"
- *         assigneeUserId:
- *           type: string
- *           nullable: true
- *           description: ID of the user assigned to the task
- *           example: "1357158568008091267"
- *         position:
- *           type: number
- *           description: Position of the task within the task list
- *           example: 65536
- *         name:
- *           type: string
- *           description: Name/title of the task
- *           example: Write unit tests
- *         isCompleted:
- *           type: boolean
- *           default: false
- *           description: Whether the task is completed
- *           example: false
  *         createdAt:
  *           type: string
  *           format: date-time
  *           nullable: true
- *           description: When the task was created
+ *           description: When the task membership was created
  *           example: 2024-01-01T00:00:00.000Z
  *         updatedAt:
  *           type: string
  *           format: date-time
  *           nullable: true
- *           description: When the task was last updated
+ *           description: When the task membership was last updated
  *           example: 2024-01-01T00:00:00.000Z
  */
 
@@ -78,20 +55,6 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    position: {
-      type: 'number',
-      required: true,
-    },
-    name: {
-      type: 'string',
-      required: true,
-    },
-    isCompleted: {
-      type: 'boolean',
-      defaultsTo: false,
-      columnName: 'is_completed',
-    },
-
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
@@ -100,23 +63,17 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
-    taskListId: {
-      model: 'TaskList',
+    taskId: {
+      model: 'Task',
       required: true,
-      columnName: 'task_list_id',
+      columnName: 'task_id',
     },
-    linkedCardId: {
-      model: 'Card',
-      columnName: 'linked_card_id',
-    },
-    assigneeUserId: {
+    userId: {
       model: 'User',
-      columnName: 'assignee_user_id',
-    },
-    memberUsers: {
-      collection: 'User',
-      via: 'taskId',
-      through: 'TaskMembership',
+      required: true,
+      columnName: 'user_id',
     },
   },
+
+  tableName: 'task_membership',
 };

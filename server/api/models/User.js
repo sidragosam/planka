@@ -410,6 +410,11 @@ module.exports = {
       via: 'userId',
       through: 'CardMembership',
     },
+    membershipTasks: {
+      collection: 'Task',
+      via: 'userId',
+      through: 'TaskMembership',
+    },
   },
 
   tableName: 'user_account',
